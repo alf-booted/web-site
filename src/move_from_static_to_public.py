@@ -14,14 +14,14 @@ def move_helper(current_from, current_to):
             #print(f"moving into directory '{full_from}'")
             move_helper(full_from, full_to)
 
-def move_from_static_to_public():
+def move_from_static_to_public(public_dir = "../public"):
     current_dir = os.path.dirname(__file__)
     static_dir = os.path.join(current_dir, "../static")
-    public_dir = os.path.join(current_dir, "../public")
+    public_dir = os.path.join(current_dir, public_dir)
     for item in os.listdir(public_dir):
         full_path = os.path.join(public_dir, item)
-        if os.path.basename(public_dir) != "public":
-            raise Exception("fatal: Trying to delete from inaccessible folder")
+        if not os.path.basename(public_dir) in ["public","docs"]:
+            raise Exception(f"fatal: Trying to delete from inaccessible folder: {os.path.basename(public_dir)}")
         if os.path.isfile(full_path):
             os.remove(full_path)
         else:
